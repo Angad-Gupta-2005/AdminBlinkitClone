@@ -3,8 +3,8 @@ package com.angad.adminblinkitclone.viewmodels
 import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.angad.adminblinkitclone.Users
 import com.angad.adminblinkitclone.Utils
+import com.angad.adminblinkitclone.model.Admins
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
@@ -62,19 +62,18 @@ class AuthViewModel: ViewModel() {
 
     }
 
-    fun signInWithPhoneAuthCredential(otp: String, userNumber: String, user: Users) {
+    fun signInWithPhoneAuthCredential(otp: String, userNumber: String, user: Admins) {
         val credential = PhoneAuthProvider.getCredential(_verificationId.value.toString(), otp)
         Utils.getAuthInstance().signInWithCredential(credential)
             .addOnCompleteListener { task ->
+                user.uid = Utils.getCurrentUserId()
                 if (task.isSuccessful) {
                     //    Save the user data into the firebase realtime database
                     FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("AllUsers").child("Users").child(user.uid!!).setValue(user)
                         .addOnSuccessListener {
-                            // Toast.makeText( this, "Data save successfully", Toast.LENGTH_SHORT).show()
                             Log.d("Success", "signInWithPhoneAuthCredential: ")
                         }
                         .addOnFailureListener { e ->
-                            // Toast.makeText(this, "Error ${e.message}", Toast.LENGTH_SHORT).show()
                             Log.e("Unsuccessful", "signInWithPhoneAuthCredential: ${e.message}" )
                         }
                     // Sign in success, update UI with the signed-in user's information

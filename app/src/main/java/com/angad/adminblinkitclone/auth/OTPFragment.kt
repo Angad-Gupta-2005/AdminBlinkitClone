@@ -12,9 +12,9 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.angad.adminblinkitclone.AdminMainActivity
+import com.angad.adminblinkitclone.activity.AdminMainActivity
 import com.angad.adminblinkitclone.R
-import com.angad.adminblinkitclone.Users
+import com.angad.adminblinkitclone.model.Admins
 import com.angad.adminblinkitclone.Utils
 import com.angad.adminblinkitclone.databinding.FragmentOTPBinding
 import com.angad.adminblinkitclone.viewmodels.AuthViewModel
@@ -140,7 +140,7 @@ class OTPFragment : Fragment() {
     //    function to verify the otp entered by the user and after verification it goes to the home fragment
     private fun verifyOtp(otp: String) {
         //    Creating an instance of user class which available in models package
-        val user = Users( Utils.getCurrentUserId(), userNumber, null)
+        val user = Admins( uid = null, userNumber, null)
 
         viewModel.signInWithPhoneAuthCredential(otp, userNumber, user)
 

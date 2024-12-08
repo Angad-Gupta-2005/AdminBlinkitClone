@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.angad.adminblinkitclone.AdminMainActivity
+import com.angad.adminblinkitclone.activity.AdminMainActivity
 import com.angad.adminblinkitclone.R
 import com.angad.adminblinkitclone.databinding.FragmentSplashBinding
 import com.angad.adminblinkitclone.viewmodels.AuthViewModel
