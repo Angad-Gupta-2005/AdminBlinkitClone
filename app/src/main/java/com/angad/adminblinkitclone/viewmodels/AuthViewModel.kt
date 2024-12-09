@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.concurrent.TimeUnit
 
-class AuthViewModel: ViewModel() {
+class AuthViewModel : ViewModel() {
 
     //    stateflow variable
     private val _verificationId = MutableStateFlow<String?>(null)
@@ -23,7 +23,7 @@ class AuthViewModel: ViewModel() {
     val optSent = _otpSent
 
     //    functionality after the user signIn successfully
-    private val _isSignedInSuccessfully =MutableStateFlow(false)
+    private val _isSignedInSuccessfully = MutableStateFlow(false)
     val isSignedInSuccessfully = _isSignedInSuccessfully
 
     private val _isCurrentUser = MutableStateFlow(false)
@@ -35,7 +35,7 @@ class AuthViewModel: ViewModel() {
         }
     }
 
-    fun sendOTP(userNumber : String, activity: Activity){
+    fun sendOTP(userNumber: String, activity: Activity) {
 
         val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -69,7 +69,8 @@ class AuthViewModel: ViewModel() {
                 user.uid = Utils.getCurrentUserId()
                 if (task.isSuccessful) {
                     //    Save the user data into the firebase realtime database
-                    FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("AllUsers").child("Users").child(user.uid!!).setValue(user)
+                    FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app")
+                        .getReference("Admins").child("AdminInfo").child(user.uid!!).setValue(user)
                         .addOnSuccessListener {
                             Log.d("Success", "signInWithPhoneAuthCredential: ")
                         }
