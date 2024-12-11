@@ -75,4 +75,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx:24.0.1")
 
+    //  Image slider dependency
+    implementation("com.github.denzcoskun:ImageSlideshow:0.1.2")
+
 }
