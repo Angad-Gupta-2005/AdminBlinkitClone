@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.angad.adminblinkitclone.databinding.ItemViewProductCategoriesBinding
 import com.angad.adminblinkitclone.model.Categories
 
-class CategoriesAdapter(private val categoryArrayList: ArrayList<Categories>):RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
+class CategoriesAdapter(
+    private val categoryArrayList: ArrayList<Categories>,
+    val onCategoryClicked: (Categories) -> Unit
+):RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
 
     class CategoriesViewHolder(val binding:ItemViewProductCategoriesBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -24,6 +27,11 @@ class CategoriesAdapter(private val categoryArrayList: ArrayList<Categories>):Re
         holder.binding.apply {
             ivCategoryImage.setImageResource(category.icon)
             tvCategoryTitle.text = category.category
+        }
+
+    //    On click any category item open the details functionality
+        holder.itemView.setOnClickListener {
+            onCategoryClicked(category)
         }
     }
 }

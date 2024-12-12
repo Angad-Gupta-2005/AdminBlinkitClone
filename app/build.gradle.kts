@@ -78,4 +78,7 @@ dependencies {
     //  Image slider dependency
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.2")
 
+    //shimmer effect
+    implementation("com.facebook.shimmer:shimmer:0.5.0@aar")
+
 }

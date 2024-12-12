@@ -82,7 +82,7 @@ class AdminViewModel: ViewModel() {
     }
 
 //    Function that fetch all the product details from firebase
-    fun fetchAllTheProducts(): Flow<List<Product>> = callbackFlow {
+    fun fetchAllTheProducts(category: String): Flow<List<Product>> = callbackFlow {
 
         val db =  FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app")
             .getReference("Admins")
@@ -96,7 +96,10 @@ class AdminViewModel: ViewModel() {
 
                 for (product in snapshot.children){
                     val prod = product.getValue(Product::class.java)
-                    products.add(prod!!)
+                    if (category == "All" || prod?.productCategory == category){
+                        products.add(prod!!)
+                    }
+
                 }
                 trySend(products)
             }

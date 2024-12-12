@@ -30,28 +30,14 @@ class HomeFragment : Fragment() {
     //    Initialised the binding
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
+    //    Calling the function that set all category item
         setCategories()
 
     //    calling the function that get all the product data
-        getAllTheProducts()
+        getAllTheProducts("All")
 
 
         return  binding.root
-    }
-
-    private fun getAllTheProducts() {
-        lifecycleScope.launch {
-            viewModel.fetchAllTheProducts().collect{
-            //    Creating an object of adapter class
-                val adapterProduct = AdapterProduct()
-
-            //    Set the adapter to the recyclerview
-                binding.rvProducts.adapter = adapterProduct
-
-            //    After setting the adapter to the recyclerview we pass differ list
-                adapterProduct.differ.submitList(it)
-            }
-        }
     }
 
     private fun setCategories() {
@@ -60,8 +46,43 @@ class HomeFragment : Fragment() {
         for (i in 0 until Constants.allProductsCategoryIcon.size){
             categoryList.add(Categories(Constants.allProductCategory[i], Constants.allProductsCategoryIcon[i]))
         }
-
-        binding.rvCategories.adapter = CategoriesAdapter(categoryList)
+        binding.rvCategories.adapter = CategoriesAdapter(categoryList, ::onCategoryClicked)
     }
 
+
+    private fun getAllTheProducts(category: String) {
+        lifecycleScope.launch {
+
+        //    Initially showing the visibility of shimmer effect
+            binding.shimmerViewContainer.visibility = View.VISIBLE
+
+            viewModel.fetchAllTheProducts(category).collect{
+
+            //    If category is empty then hide the recyclerview and show the required text
+                if (it.isEmpty()){
+                    binding.rvProducts.visibility = View.GONE
+                    binding.tvText.visibility = View.VISIBLE
+                } else {
+                    binding.rvProducts.visibility = View.VISIBLE
+                    binding.tvText.visibility = View.GONE
+                }
+
+            //    Creating an object of adapter class
+                val adapterProduct = AdapterProduct()
+
+            //    Set the adapter to the recyclerview
+                binding.rvProducts.adapter = adapterProduct
+
+            //    After setting the adapter to the recyclerview we pass differ list
+                adapterProduct.differ.submitList(it)
+
+            //    After loaded the data hide the shimmer effect
+                binding.shimmerViewContainer.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun onCategoryClicked(categories: Categories){
+        getAllTheProducts(categories.category)
+    }
 }
