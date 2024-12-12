@@ -114,4 +114,21 @@ class AdminViewModel: ViewModel() {
     //    After complete the fetching stop the fetching
         awaitClose{db.removeEventListener(eventListener)}
     }
+
+    fun savingUpdateProducts(product: Product){
+    //    Saving the product details after edited the product details
+        FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app")
+            .getReference("Admins")
+            .child("AllProducts/${product.productRandomId}").setValue(product)
+
+    //    Saving product details to node for adding ProductCategory
+        FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app")
+            .getReference("Admins")
+            .child("ProductCategory/${product.productRandomId}").setValue(product)
+
+    //    Saving product details to node for adding ProductType
+        FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app")
+            .getReference("Admins")
+            .child("ProductType/${product.productRandomId}").setValue(product)
+    }
 }

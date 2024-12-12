@@ -20,7 +20,6 @@ import com.angad.adminblinkitclone.adapter.AdapterSelectedImage
 import com.angad.adminblinkitclone.databinding.FragmentAddProductBinding
 import com.angad.adminblinkitclone.model.Product
 import com.angad.adminblinkitclone.viewmodels.AdminViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class AddProductFragment : Fragment() {

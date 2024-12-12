@@ -10,7 +10,8 @@ import com.angad.adminblinkitclone.databinding.ItemViewProductBinding
 import com.angad.adminblinkitclone.model.Product
 import com.denzcoskun.imageslider.models.SlideModel
 
-class AdapterProduct(): RecyclerView.Adapter<AdapterProduct.ProductViewHolder>() {
+class AdapterProduct(val onEditButtonClicked: (Product) -> Unit)
+    : RecyclerView.Adapter<AdapterProduct.ProductViewHolder>() {
 
     class ProductViewHolder(val binding: ItemViewProductBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -57,6 +58,9 @@ class AdapterProduct(): RecyclerView.Adapter<AdapterProduct.ProductViewHolder>()
             tvProductQuantity.text = quantity
             tvProductPrice.text = "₹" + product.productPrice.toString()
         }
-
+    //    On click edit button open new layout to edit the product
+        holder.itemView.setOnClickListener {
+            onEditButtonClicked(product)
+        }
     }
 }
