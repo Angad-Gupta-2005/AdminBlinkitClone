@@ -68,12 +68,12 @@ class AdminViewModel: ViewModel() {
                 //    Creating a node for adding ProductCategory
                 FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app")
                     .getReference("Admins")
-                    .child("ProductCategory/${product.productRandomId}").setValue(product)
+                    .child("ProductCategory/${product.productCategory}/${product.productRandomId}").setValue(product)
                     .addOnSuccessListener {
                         //    Creating a node for adding ProductType
                         FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app")
                             .getReference("Admins")
-                            .child("ProductType/${product.productRandomId}").setValue(product)
+                            .child("ProductType/${product.productType}/${product.productRandomId}").setValue(product)
                             .addOnSuccessListener {
                                 _isProductSaved.value = true
                             }
@@ -124,11 +124,11 @@ class AdminViewModel: ViewModel() {
     //    Saving product details to node for adding ProductCategory
         FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app")
             .getReference("Admins")
-            .child("ProductCategory/${product.productRandomId}").setValue(product)
+            .child("ProductCategory/${product.productCategory}/${product.productRandomId}").setValue(product)
 
     //    Saving product details to node for adding ProductType
         FirebaseDatabase.getInstance("https://blinkit-clone-f610a-default-rtdb.asia-southeast1.firebasedatabase.app")
             .getReference("Admins")
-            .child("ProductType/${product.productRandomId}").setValue(product)
+            .child("ProductType/${product.productType}/${product.productRandomId}").setValue(product)
     }
 }

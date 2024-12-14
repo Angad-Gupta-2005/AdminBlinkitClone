@@ -1,6 +1,8 @@
 package com.angad.adminblinkitclone.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +27,7 @@ class HomeFragment : Fragment() {
 
 //    Creating an instance of binding
     private lateinit var binding: FragmentHomeBinding
-
+    private lateinit var adapterProduct: AdapterProduct
 //    Initialised the viewModel
     private val viewModel: AdminViewModel by viewModels()
 
@@ -39,11 +41,28 @@ class HomeFragment : Fragment() {
     //    Calling the function that set all category item
         setCategories()
 
+    //    Calling the function that implement the search functionality
+        searchProducts()
     //    calling the function that get all the product data
         getAllTheProducts("All")
 
 
         return  binding.root
+    }
+
+//    Function the perform the search functionality
+    private fun searchProducts() {
+        binding.searchEt.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString().trim()
+                adapterProduct.filter.filter(query)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+
+        })
     }
 
     private fun setCategories() {
@@ -74,7 +93,7 @@ class HomeFragment : Fragment() {
                 }
 
             //    Creating an object of adapter class
-                val adapterProduct = AdapterProduct(::onEditButtonClicked)
+                adapterProduct = AdapterProduct(::onEditButtonClicked)
 
             //    Set the adapter to the recyclerview
                 binding.rvProducts.adapter = adapterProduct
@@ -82,6 +101,8 @@ class HomeFragment : Fragment() {
             //    After setting the adapter to the recyclerview we pass differ list
                 adapterProduct.differ.submitList(it)
 
+            //    For search functionality
+                adapterProduct.originalProduct = it as ArrayList<Product>
             //    After loaded the data hide the shimmer effect
                 binding.shimmerViewContainer.visibility = View.GONE
             }

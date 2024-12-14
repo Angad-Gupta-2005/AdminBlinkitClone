@@ -3,19 +3,24 @@ package com.angad.adminblinkitclone.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.angad.adminblinkitclone.FilteringProducts
 import com.angad.adminblinkitclone.databinding.ItemViewProductBinding
 import com.angad.adminblinkitclone.model.Product
 import com.denzcoskun.imageslider.models.SlideModel
 
 class AdapterProduct(val onEditButtonClicked: (Product) -> Unit)
-    : RecyclerView.Adapter<AdapterProduct.ProductViewHolder>() {
+    : RecyclerView.Adapter<AdapterProduct.ProductViewHolder>(), Filterable {
 
-    class ProductViewHolder(val binding: ItemViewProductBinding):RecyclerView.ViewHolder(binding.root)
+    class ProductViewHolder(val binding: ItemViewProductBinding):RecyclerView.ViewHolder(binding.root){
 
-    val diffUtil = object : DiffUtil.ItemCallback<Product>() {
+    }
+
+    private val diffUtil = object : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem.productRandomId == newItem.productRandomId
         }
@@ -62,5 +67,14 @@ class AdapterProduct(val onEditButtonClicked: (Product) -> Unit)
         holder.itemView.setOnClickListener {
             onEditButtonClicked(product)
         }
+    }
+
+    private val filter: FilteringProducts? = null
+    var originalProduct = ArrayList<Product>()
+    override fun getFilter(): Filter {
+        if (filter == null){
+            return FilteringProducts(this, originalProduct)
+        }
+        return filter
     }
 }
